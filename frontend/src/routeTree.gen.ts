@@ -15,6 +15,8 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginAltRouteImport } from './routes/login-alt'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LoadingRouteImport } from './routes/loading'
+import { Route as ApplyRouteImport } from './routes/apply'
+import { Route as R404RouteImport } from './routes/404'
 import { Route as IndexRouteImport } from './routes/index'
 
 const StandardRoute = StandardRouteImport.update({
@@ -47,6 +49,16 @@ const LoadingRoute = LoadingRouteImport.update({
   path: '/loading',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApplyRoute = ApplyRouteImport.update({
+  id: '/apply',
+  path: '/apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R404Route = R404RouteImport.update({
+  id: '/404',
+  path: '/404',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -55,6 +67,8 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/404': typeof R404Route
+  '/apply': typeof ApplyRoute
   '/loading': typeof LoadingRoute
   '/login': typeof LoginRoute
   '/login-alt': typeof LoginAltRoute
@@ -64,6 +78,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/404': typeof R404Route
+  '/apply': typeof ApplyRoute
   '/loading': typeof LoadingRoute
   '/login': typeof LoginRoute
   '/login-alt': typeof LoginAltRoute
@@ -74,6 +90,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/404': typeof R404Route
+  '/apply': typeof ApplyRoute
   '/loading': typeof LoadingRoute
   '/login': typeof LoginRoute
   '/login-alt': typeof LoginAltRoute
@@ -85,6 +103,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/404'
+    | '/apply'
     | '/loading'
     | '/login'
     | '/login-alt'
@@ -94,6 +114,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/404'
+    | '/apply'
     | '/loading'
     | '/login'
     | '/login-alt'
@@ -103,6 +125,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/404'
+    | '/apply'
     | '/loading'
     | '/login'
     | '/login-alt'
@@ -113,6 +137,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  R404Route: typeof R404Route
+  ApplyRoute: typeof ApplyRoute
   LoadingRoute: typeof LoadingRoute
   LoginRoute: typeof LoginRoute
   LoginAltRoute: typeof LoginAltRoute
@@ -165,6 +191,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoadingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/apply': {
+      id: '/apply'
+      path: '/apply'
+      fullPath: '/apply'
+      preLoaderRoute: typeof ApplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/404': {
+      id: '/404'
+      path: '/404'
+      fullPath: '/404'
+      preLoaderRoute: typeof R404RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -177,6 +217,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  R404Route: R404Route,
+  ApplyRoute: ApplyRoute,
   LoadingRoute: LoadingRoute,
   LoginRoute: LoginRoute,
   LoginAltRoute: LoginAltRoute,

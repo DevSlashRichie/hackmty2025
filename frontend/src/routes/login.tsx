@@ -1,17 +1,33 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate, redirect } from '@tanstack/react-router'
 import { GoogleLogin } from '@react-oauth/google'
 import type { CredentialResponse } from '@react-oauth/google'
+import { useAuth } from '@/contexts/AuthContext'
 
 export const Route = createFileRoute('/login')({
+  beforeLoad: () => {
+    // Si ya está autenticado, redirigir a /apply
+    const token = sessionStorage.getItem('auth_token')
+    if (token) {
+      throw redirect({ to: '/apply' })
+    }
+  },
   component: LoginComponent,
 })
 
 function LoginComponent() {
-  const handleGoogleSuccess = (credentialResponse: CredentialResponse) => {
-    console.log('Google Login Success:', credentialResponse)
-    // Aquí puedes enviar el token a tu backend
-    // const token = credentialResponse.credential
-    // await fetch('/api/auth/google', { method: 'POST', body: JSON.stringify({ token }) })
+  const { login } = useAuth()
+  const navigate = useNavigate()
+
+  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+    if (credentialResponse.credential) {
+      try {
+        await login(credentialResponse.credential)
+        // Redirigir a la página de aplicación
+        navigate({ to: '/apply' })
+      } catch (error) {
+        console.error('Error during login:', error)
+      }
+    }
   }
 
   const handleGoogleError = () => {

@@ -1,23 +1,10 @@
-import * as React from "react";
-import { Outlet, createRootRoute, Link } from "@tanstack/react-router";
-import { Navbar } from "@/components/Navbar";
-import { Button } from "@/components/ui/button";
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { Button } from '@/components/ui/button'
 
-export const Route = createRootRoute({
-  component: RootComponent,
-  notFoundComponent: NotFoundComponent,
-});
+export const Route = createFileRoute('/404')({
+  component: NotFoundComponent,
+})
 
-function RootComponent() {
-  return (
-    <React.Fragment>
-      <Navbar />
-      <Outlet />
-    </React.Fragment>
-  );
-}
-
-// Componente 404 integrado en el root
 function NotFoundComponent() {
   return (
     <div className="min-h-screen bg-[#F6F6F6] flex items-center justify-center p-4 sm:p-6 lg:p-8">
@@ -184,5 +171,5 @@ function NotFoundComponent() {
         </div>
       </div>
     </div>
-  );
+  )
 }

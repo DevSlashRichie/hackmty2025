@@ -1,9 +1,18 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { Button } from './ui/button'
 import { useState } from 'react'
+import { useAuth } from '@/contexts/AuthContext'
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { isAuthenticated, user, logout } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    setIsMenuOpen(false)
+    navigate({ to: '/' })
+  }
 
   return (
     <nav className="bg-white border-b border-[#CFD2D3]">
@@ -45,16 +54,38 @@ export function Navbar() {
 
           {/* Desktop Auth Buttons */}
           <div className="hidden sm:flex items-center space-x-3 lg:space-x-4">
-            <Link to="/login">
-              <Button variant="outline" size="sm" className="text-[13px] lg:text-[14px]">
-                Iniciar Sesión
-              </Button>
-            </Link>
-            <Link to="/signup">
-              <Button variant="primary" size="sm" className="text-[13px] lg:text-[14px]">
-                Registrarse
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <div className="flex items-center space-x-3">
+                  {user?.picture && (
+                    <img
+                      src={user.picture}
+                      alt={user.name}
+                      className="w-8 h-8 rounded-full"
+                    />
+                  )}
+                  <span className="text-[14px] text-[#323E48] font-medium">
+                    {user?.name}
+                  </span>
+                </div>
+                <Button variant="outline" size="sm" onClick={handleLogout} className="text-[13px] lg:text-[14px]">
+                  Cerrar Sesión
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="outline" size="sm" className="text-[13px] lg:text-[14px]">
+                    Iniciar Sesión
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button variant="primary" size="sm" className="text-[13px] lg:text-[14px]">
+                    Registrarse
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -104,16 +135,39 @@ export function Navbar() {
               
               {/* Mobile Auth Buttons */}
               <div className="flex flex-col space-y-3 pt-4 border-t border-[#CFD2D3]">
-                <Link to="/login" className="w-full" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="outline" className="w-full">
-                    Iniciar Sesión
-                  </Button>
-                </Link>
-                <Link to="/signup" className="w-full" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="primary" className="w-full">
-                    Registrarse
-                  </Button>
-                </Link>
+                {isAuthenticated ? (
+                  <>
+                    <div className="flex items-center space-x-3 px-2">
+                      {user?.picture && (
+                        <img
+                          src={user.picture}
+                          alt={user.name}
+                          className="w-10 h-10 rounded-full"
+                        />
+                      )}
+                      <div>
+                        <p className="text-[14px] text-[#323E48] font-medium">{user?.name}</p>
+                        <p className="text-[12px] text-[#5B6670]">{user?.email}</p>
+                      </div>
+                    </div>
+                    <Button variant="outline" onClick={handleLogout} className="w-full">
+                      Cerrar Sesión
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" className="w-full" onClick={() => setIsMenuOpen(false)}>
+                      <Button variant="outline" className="w-full">
+                        Iniciar Sesión
+                      </Button>
+                    </Link>
+                    <Link to="/signup" className="w-full" onClick={() => setIsMenuOpen(false)}>
+                      <Button variant="primary" className="w-full">
+                        Registrarse
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
