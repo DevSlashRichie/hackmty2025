@@ -3,6 +3,35 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Design System - Color Variables */
+:root {
+  /* Colores Principales */
+  --color-rojo-banorte: #EB0029;
+  --color-gris-banorte: #58670;
+  --color-blanco: #FFFFFF;
+  
+  /* Colores Adicionales */
+  --color-enlaces: #EB0029;
+  --color-positivo: #6CC04A;
+  --color-alertas: #FF5718;
+  --color-avisos: #FFA500;
+  
+  /* Grises */
+  --color-gris-texto: #323E48;
+  --color-gris-label: #5B6670;
+  --color-gris-placeholder: #C1C5C8;
+  --color-gris-disabled: #CFD2D3;
+  --color-gris-disabled-text: #A2A9AD;
+  --color-gris-fondo: #F6F6F6;
+  
+  /* Radius */
+  --radius: 0.625rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -42,7 +71,6 @@
 }
 
 :root {
-  --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
@@ -114,7 +142,89 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
   body {
     @apply bg-background text-foreground;
+    font-family: 'Gotham', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+  
+  /* Typography Scale - Multiple of 5px, minimum 15px for web */
+  h1 {
+    @apply text-[40px] font-bold leading-tight;
+  }
+  
+  h2 {
+    @apply text-[35px] font-bold leading-tight;
+  }
+  
+  h3 {
+    @apply text-[30px] font-bold leading-tight;
+  }
+  
+  h4 {
+    @apply text-[25px] font-semibold leading-tight;
+  }
+  
+  h5 {
+    @apply text-[20px] font-semibold leading-tight;
+  }
+  
+  h6 {
+    @apply text-[15px] font-semibold leading-tight;
+  }
+  
+  p {
+    @apply text-[15px] font-normal leading-relaxed;
+  }
+  
+  /* Utility classes for design system colors */
+  .text-rojo-banorte {
+    color: var(--color-rojo-banorte);
+  }
+  
+  .bg-rojo-banorte {
+    background-color: var(--color-rojo-banorte);
+  }
+  
+  .text-gris-banorte {
+    color: var(--color-gris-banorte);
+  }
+  
+  .bg-gris-banorte {
+    background-color: var(--color-gris-banorte);
+  }
+  
+  .text-positivo {
+    color: var(--color-positivo);
+  }
+  
+  .bg-positivo {
+    background-color: var(--color-positivo);
+  }
+  
+  .text-alerta {
+    color: var(--color-alertas);
+  }
+  
+  .bg-alerta {
+    background-color: var(--color-alertas);
+  }
+  
+  .text-aviso {
+    color: var(--color-avisos);
+  }
+  
+  .bg-aviso {
+    background-color: var(--color-avisos);
+  }
+}
+
+/* Code and preformatted text */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
