@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/devslashrichie/resumero/internal/domain/resume"
+	"github.com/devslashrichie/resumero/internal/domain/energy"
 	"github.com/devslashrichie/resumero/internal/domain/user"
 	"github.com/devslashrichie/resumero/internal/external/gemini"
 	"github.com/devslashrichie/resumero/internal/http"
@@ -38,9 +38,10 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Unable to connect to gemini %v\n", err)
 	}
 
-	resumeService := resume.NewService(geminiClient)
+	//resumeService := resume.NewService(geminiClient)
+	energyService := energy.NewService(geminiClient)
 
-	r := http.NewRouter(userService, resumeService)
+	r := http.NewRouter(userService, energyService)
 
 	r.Run()
 }
