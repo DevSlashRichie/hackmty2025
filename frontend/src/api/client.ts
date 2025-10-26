@@ -84,6 +84,7 @@ export class Client {
       removeAuth?: boolean;
       credentials?: boolean;
       route: any;
+      responseType?: "json" | "blob" | "text";
     },
   ) {
     const route = makeUrl(this.baseUrl, {
@@ -109,19 +110,28 @@ export class Client {
 
     // we need to load the additional headers
 
-    let headers = {};
+    let headers = {} as any;
+    let bodyToPass: any = method !== "GET" ? JSON.stringify(body) : undefined;
+
+    if (method !== "GET") {
+      if (body instanceof FormData) {
+        //headers["Content-Type"] = "multipart/form-data";
+        bodyToPass = body;
+      } else {
+        headers["Content-Type"] = "application/json";
+      }
+    }
 
     if (!config?.removeAuth && this.t) {
       headers = {
         ...headers,
-        "Content-Type": "application/json",
         Authorization: `Bearer ${this.t}`,
       };
     }
 
     const request = new Request(url, {
       method,
-      body: method !== "GET" ? JSON.stringify(body) : undefined,
+      body: bodyToPass,
       headers,
     });
 
@@ -129,13 +139,14 @@ export class Client {
       request,
       operation: {
         submit: async () => {
-          return await this.submit<T>(request);
+          return await this.submit<T>(request, config?.responseType);
         },
         route: request.url,
         request,
         map: <U>(fn: (data: T) => U) => ({
           submit: async () => {
-            return fn(await this.submit<T>(request));
+            const data = await this.submit<T>(request, config?.responseType);
+            return fn(data);
           },
           route: request.url,
           request,
@@ -144,15 +155,29 @@ export class Client {
     };
   }
 
-  async submit<T>(request: Request): Promise<T> {
+  async submit<T>(
+    request: Request,
+    responseType: "json" | "blob" | "text" = "json",
+  ): Promise<T> {
     const response = await fetch(request);
 
-    const result = await response.json();
-
     if (response.ok) {
-      return result;
+      if (responseType === "blob") {
+        return response.blob() as any;
+      }
+      if (responseType === "text") {
+        return response.text() as any;
+      }
+      return response.json();
     } else {
-      throw new ApiError(result.message, response.status ?? 500);
+      let errorMessage: string;
+      try {
+        const errorResult = await response.json();
+        errorMessage = errorResult.message || JSON.stringify(errorResult);
+      } catch (e) {
+        errorMessage = await response.text();
+      }
+      throw new ApiError(errorMessage, response.status ?? 500);
     }
   }
 }

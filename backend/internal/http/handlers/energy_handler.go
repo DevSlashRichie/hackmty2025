@@ -2,9 +2,8 @@ package handlers
 
 import (
 	"bytes"
-	"log"
+	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/devslashrichie/resumero/internal/domain/energy"
 	"github.com/gin-gonic/gin"
@@ -88,7 +87,7 @@ func (h *EnergyHandler) CalculatePanelsFromFile(c *gin.Context) {
 
 	fileContent := buf.Bytes()
 
-	panels, err := h.service.CalculatePanelsFromFile(fileContent, file.Filename)
+	result, err := h.service.CalculatePanelsFromFile(fileContent, file.Filename)
 
 	if err != nil {
 
@@ -103,7 +102,7 @@ func (h *EnergyHandler) CalculatePanelsFromFile(c *gin.Context) {
 
 	}
 
-	c.JSON(http.StatusOK, gin.H{"panels": panels})
+	c.JSON(http.StatusOK, result)
 
 }
 
@@ -163,9 +162,37 @@ func (h *EnergyHandler) TextToTTS(c *gin.Context) {
 		return
 	}
 
-	if err := os.WriteFile("debug_output.mpeg", audio, 0644); err != nil {
-		log.Printf("Error writing debug file: %v", err)
-	}
-
+	c.Header("Content-Type", "audio/mpeg")
+	c.Header("Content-Length", fmt.Sprint(len(audio)))
+	c.Header("Content-Encoding", "identity")
 	c.Data(http.StatusOK, "audio/mpeg", audio)
 }
+
+func (h *EnergyHandler) ChatWithSusana(c *gin.Context) {
+	var input struct {
+		History    []string `json:"history"`
+		NewMessage string   `json:"new_message"`
+	}
+
+	if err := c.BindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Could not parse request body.",
+			"error":   err.Error(),
+		})
+		return
+	}
+
+	response, err := h.service.ContinueChatting(input.History, input.NewMessage)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not get response from chat.",
+			"error":   err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"response": response,
+	})
+}
+

@@ -157,21 +157,3 @@ export function analyzeEnergyProfile(profile: EnergyProfile): EnergyAnalysisResu
   }
 }
 
-/**
- * Intenta extraer información del recibo de luz (simulado)
- * En producción, esto se conectaría a un servicio de OCR/AI
- */
-export async function analyzeElectricBill(file: File): Promise<number | null> {
-  // TODO: Implementar OCR real con servicio backend
-  // Por ahora, retornamos null para usar el cálculo estimado
-  
-  console.log('Analizando recibo:', file.name)
-  
-  // Simular procesamiento
-  await new Promise(resolve => setTimeout(resolve, 1000))
-  
-  // En producción, aquí se enviaría el archivo a un servicio de OCR
-  // que extraería el consumo en kWh del recibo
-  
-  return null // Retornar null indica usar el cálculo estimado
-}

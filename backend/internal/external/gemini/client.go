@@ -61,6 +61,14 @@ func (c *Client) GenerateWithFile(file []byte, fileName, prompt, system string) 
 	config := &genai.GenerateContentConfig{
 		SystemInstruction: genai.NewContentFromText(system, genai.RoleUser),
 		Temperature:       &temp,
+		ResponseMIMEType:  "application/json",
+		ResponseSchema: &genai.Schema{
+			Type: genai.TypeObject,
+			Properties: map[string]*genai.Schema{
+				"total_kwh":       {Type: genai.TypeInteger},
+				"last_month_cost": {Type: genai.TypeInteger},
+			},
+		},
 	}
 
 	cont := []*genai.Content{
@@ -69,7 +77,7 @@ func (c *Client) GenerateWithFile(file []byte, fileName, prompt, system string) 
 			Parts: []*genai.Part{
 				{
 					InlineData: &genai.Blob{
-						Data: file,
+						Data:     file,
 						MIMEType: "application/pdf",
 					},
 				},
@@ -86,4 +94,8 @@ func (c *Client) GenerateWithFile(file []byte, fileName, prompt, system string) 
 	text := r.Text()
 
 	return &text, nil
+}
+
+func (c *Client) GetClient() *genai.Client {
+	return c.client
 }
