@@ -25,7 +25,7 @@ func NewClient(apiKey string) *Client {
 
 type TTSRequestInput struct {
 	Text    string `json:"text"`
-	ModelID string `json:"model_id"`
+	VoiceId string `json:"voice_id"`
 }
 
 type TTSRequest struct {
@@ -33,13 +33,13 @@ type TTSRequest struct {
 	LanguageCode string            `json:"language_code"`
 }
 
-func (c *Client) TextToSpeech(text, modelId string) ([]byte, error) {
-	url := BaseUrl + "/text-to-dialogue/stream"
+func (c *Client) Generate(input string) ([]byte, error) {
+	url := BaseUrl + "/text-to-dialogue"
 
 	payload, err := json.Marshal(TTSRequest{
 		Inputs: []TTSRequestInput{{
-			Text:    text,
-			ModelID: modelId,
+			Text:    input,
+			VoiceId: "CaJslL1xziwefCeTNzHv",
 		}},
 		LanguageCode: "es",
 	})

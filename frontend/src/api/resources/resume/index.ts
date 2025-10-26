@@ -7,17 +7,16 @@ export class Energy {
     this.client = client;
   }
 
-  calculate(file:File
-  ) {
+  calculate(file: File) {
     const formData = new FormData();
     formData.append("bill", file);
 
-    const { operation } = this.client.prepare<{ content: string }>(
+    const { operation } = this.client.prepare<{ panels: string }>(
       "/energy/calculate_from_file",
       "POST",
-      formData
+      formData,
     );
 
-    return operation;
+    return operation.map((it) => Number(it));
   }
 }

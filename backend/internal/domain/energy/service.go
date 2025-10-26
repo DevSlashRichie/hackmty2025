@@ -6,12 +6,14 @@ import (
 )
 
 type Service struct {
-	generator Generator
+	generator    Generator
+	ttsGenerator TTSGenerator
 }
 
-func NewService(g Generator) *Service {
+func NewService(g Generator, t TTSGenerator) *Service {
 	return &Service{
-		generator: g,
+		generator:    g,
+		ttsGenerator: t,
 	}
 }
 
@@ -74,4 +76,8 @@ func (s *Service) CalculatePanelsFromFile(fileContent []byte, fileName string) (
 	`, *consumption)
 
 	return s.generator.Generate("You are an expert in solar energy system design.", calculationQuery)
+}
+
+func (s *Service) GenerateTTS(input string) ([]byte, error) {
+	return s.ttsGenerator.Generate(input)
 }
