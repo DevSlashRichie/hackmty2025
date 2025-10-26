@@ -30,8 +30,8 @@ export function ParticleSphere() {
 
     // Crear partículas en forma de esfera
     const particles: Particle[] = []
-    const particleCount = 1500
-    const radius = 150
+    const particleCount = window.innerWidth < 768 ? 800 : 1500
+    const radius = window.innerWidth < 768 ? 100 : 150
 
     for (let i = 0; i < particleCount; i++) {
       const theta = Math.random() * Math.PI * 2
@@ -96,12 +96,13 @@ export function ParticleSphere() {
         const z2 = y * sinX + z1 * cosX
 
         // Proyección 3D a 2D
-        const scale = 300 / (300 + z2)
+        const perspective = window.innerWidth < 768 ? 250 : 300
+        const scale = perspective / (perspective + z2)
         const x2d = x1 * scale + width / 2
         const y2d = y1 * scale + height / 2
 
         // Tamaño basado en profundidad
-        const size = scale * 2
+        const size = scale * (window.innerWidth < 768 ? 1.5 : 2)
 
         // Color basado en profundidad
         const alpha = (z2 + radius) / (radius * 2)

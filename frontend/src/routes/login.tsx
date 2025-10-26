@@ -5,10 +5,10 @@ import { useAuth } from '@/contexts/AuthContext'
 
 export const Route = createFileRoute('/login')({
   beforeLoad: () => {
-    // Si ya está autenticado, redirigir a /apply
+    // Si ya está autenticado, redirigir a onboarding-questions
     const token = sessionStorage.getItem('auth_token')
     if (token) {
-      throw redirect({ to: '/apply' })
+      throw redirect({ to: '/onboarding-questions' })
     }
   },
   component: LoginComponent,
@@ -22,8 +22,8 @@ function LoginComponent() {
     if (credentialResponse.credential) {
       try {
         await login(credentialResponse.credential)
-        // Redirigir a la página de aplicación
-        navigate({ to: '/apply' })
+        // Redirigir directamente a onboarding-questions
+        navigate({ to: '/onboarding-questions' })
       } catch (error) {
         console.error('Error during login:', error)
       }

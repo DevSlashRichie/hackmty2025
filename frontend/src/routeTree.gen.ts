@@ -18,7 +18,6 @@ import { Route as LoadingRouteImport } from './routes/loading'
 import { Route as GamificationRouteImport } from './routes/gamification'
 import { Route as DashboardPredictionRouteImport } from './routes/dashboard-prediction'
 import { Route as AssistantRouteImport } from './routes/assistant'
-import { Route as ApplyRouteImport } from './routes/apply'
 import { Route as R404RouteImport } from './routes/404'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -67,11 +66,6 @@ const AssistantRoute = AssistantRouteImport.update({
   path: '/assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApplyRoute = ApplyRouteImport.update({
-  id: '/apply',
-  path: '/apply',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const R404Route = R404RouteImport.update({
   id: '/404',
   path: '/404',
@@ -86,7 +80,6 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/404': typeof R404Route
-  '/apply': typeof ApplyRoute
   '/assistant': typeof AssistantRoute
   '/dashboard-prediction': typeof DashboardPredictionRoute
   '/gamification': typeof GamificationRoute
@@ -100,7 +93,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/404': typeof R404Route
-  '/apply': typeof ApplyRoute
   '/assistant': typeof AssistantRoute
   '/dashboard-prediction': typeof DashboardPredictionRoute
   '/gamification': typeof GamificationRoute
@@ -115,7 +107,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/404': typeof R404Route
-  '/apply': typeof ApplyRoute
   '/assistant': typeof AssistantRoute
   '/dashboard-prediction': typeof DashboardPredictionRoute
   '/gamification': typeof GamificationRoute
@@ -131,7 +122,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/404'
-    | '/apply'
     | '/assistant'
     | '/dashboard-prediction'
     | '/gamification'
@@ -145,7 +135,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/404'
-    | '/apply'
     | '/assistant'
     | '/dashboard-prediction'
     | '/gamification'
@@ -159,7 +148,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/404'
-    | '/apply'
     | '/assistant'
     | '/dashboard-prediction'
     | '/gamification'
@@ -174,7 +162,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   R404Route: typeof R404Route
-  ApplyRoute: typeof ApplyRoute
   AssistantRoute: typeof AssistantRoute
   DashboardPredictionRoute: typeof DashboardPredictionRoute
   GamificationRoute: typeof GamificationRoute
@@ -251,13 +238,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/apply': {
-      id: '/apply'
-      path: '/apply'
-      fullPath: '/apply'
-      preLoaderRoute: typeof ApplyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/404': {
       id: '/404'
       path: '/404'
@@ -278,7 +258,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   R404Route: R404Route,
-  ApplyRoute: ApplyRoute,
   AssistantRoute: AssistantRoute,
   DashboardPredictionRoute: DashboardPredictionRoute,
   GamificationRoute: GamificationRoute,
