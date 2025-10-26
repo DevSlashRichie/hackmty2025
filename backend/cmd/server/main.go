@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/devslashrichie/resumero/internal/domain/energy"
@@ -19,7 +18,7 @@ func main() {
 	err := godotenv.Load()
 
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		fmt.Println("Error loading .env file")
 	}
 
 	conn, err := pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
