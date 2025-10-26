@@ -1,6 +1,7 @@
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
+import { FloatingChat } from '@/components/FloatingChat'
 
 export const Route = createFileRoute('/scan')({
   beforeLoad: async () => {
@@ -104,7 +105,7 @@ function ScanComponent() {
               <div className="bg-white rounded-2xl shadow-xl p-8">
                 <div className="text-center mb-8">
                   <h2 className="text-2xl font-bold text-[#323E48] mb-2">
-                    Escanea tu Electrodoméstico
+                    Calcula el Consumo de tu Electrodoméstico
                   </h2>
                   <p className="text-[#5B6670]">
                     Toma una foto de la etiqueta de consumo energético
@@ -161,7 +162,7 @@ function ScanComponent() {
               </div>
             ) : (
               <div className="bg-white rounded-2xl shadow-xl p-8 animate-in fade-in duration-500">
-                {/* Imagen escaneada */}
+                {/* Imagen del electrodoméstico */}
                 {uploadedImage && (
                   <div className="mb-6">
                     <img src={uploadedImage} alt="Scanned" className="w-full rounded-lg shadow-md" />
@@ -234,7 +235,7 @@ function ScanComponent() {
                   }}
                   className="w-full py-3 border-2 border-[#CFD2D3] text-[#323E48] font-medium rounded-xl hover:bg-gray-50 transition-colors"
                 >
-                  Escanear otro electrodoméstico
+                  Calcular otro electrodoméstico
                 </button>
               </div>
             )}
@@ -261,8 +262,8 @@ function ScanComponent() {
               className="w-full flex items-center gap-3 p-3 rounded-lg bg-[#EB0029]/10 transition-colors text-left border-l-2 border-[#EB0029]"
             >
               <div>
-                <p className="font-medium text-[#323E48]">Escanear</p>
-                <p className="text-xs text-[#5B6670]">Recibo de luz</p>
+                <p className="font-medium text-[#323E48]">Ahorrar</p>
+                <p className="text-xs text-[#5B6670]">Calcula el costo de tus electrodomésticos</p>
               </div>
             </button>
 
@@ -276,21 +277,11 @@ function ScanComponent() {
               </div>
             </button>
 
-            <button
-              onClick={() => navigate({ to: '/assistant' })}
-              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#EB0029]/10 transition-colors text-left border-l-2 border-transparent hover:border-[#EB0029]"
-            >
-              <div>
-                <p className="font-medium text-[#323E48]">Asistente IA</p>
-                <p className="text-xs text-[#5B6670]">Pregunta aquí</p>
-              </div>
-            </button>
-
             <div className="pt-4 border-t border-[#CFD2D3] mt-4">
               <div className="bg-[#F6F6F6] rounded-lg p-4 border-l-4 border-[#6CC04A]">
                 <p className="text-sm font-semibold text-[#323E48] mb-2">Consejo del día</p>
                 <p className="text-xs text-[#5B6670]">
-                  Escanea tus electrodomésticos para encontrar oportunidades de ahorro.
+                  Calcula el consumo de tus electrodomésticos para encontrar oportunidades de ahorro.
                 </p>
               </div>
             </div>
@@ -355,6 +346,9 @@ function ScanComponent() {
           </button>
         </div>
       </div>
+
+      {/* Floating Chat */}
+      <FloatingChat />
     </div>
   )
 }

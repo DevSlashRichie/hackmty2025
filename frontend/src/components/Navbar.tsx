@@ -125,14 +125,14 @@ export function Navbar() {
                 Inicio
               </Link>
               <Link 
-                to="/standard"
+                to="/"
                 className="text-[15px] text-[#5B6670] hover:text-[#EB0029] transition-colors px-2 py-1"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Aplica
               </Link>
               <Link 
-                to="/standard"
+                to="/"
                 className="text-[15px] text-[#5B6670] hover:text-[#EB0029] transition-colors px-2 py-1"
                 onClick={() => setIsMenuOpen(false)}
               >

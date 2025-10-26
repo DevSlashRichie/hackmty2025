@@ -2,6 +2,7 @@ import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { useApi } from '@/api/use-api'
+import { FloatingChat } from '@/components/FloatingChat'
 
 export const Route = createFileRoute('/dashboard-prediction')({
   beforeLoad: async () => {
@@ -166,7 +167,6 @@ function DashboardPredictionComponent() {
               {/* Predicción IA */}
               <div className="bg-gradient-to-br from-[#EB0029]/5 to-[#4A9EEB]/5 border-2 border-[#EB0029]/20 rounded-xl md:rounded-2xl p-4 md:p-6">
                 <div className="flex items-start gap-3 md:gap-4">
-                  <div className="text-3xl md:text-5xl">🤖</div>
                   <div className="flex-1">
                     <h3 className="text-lg md:text-xl font-bold text-[#323E48] mb-2 md:mb-4">
                       PREDICCIÓN IA
@@ -230,8 +230,8 @@ function DashboardPredictionComponent() {
               className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#EB0029]/10 transition-colors text-left border-l-2 border-transparent hover:border-[#EB0029]"
             >
               <div>
-                <p className="font-medium text-[#323E48]">Escanear</p>
-                <p className="text-xs text-[#5B6670]">Recibo de luz</p>
+                <p className="font-medium text-[#323E48]">Ahorrar</p>
+                <p className="text-xs text-[#5B6670]">Calcula el costo de tus electrodomésticos</p>
               </div>
             </button>
 
@@ -242,16 +242,6 @@ function DashboardPredictionComponent() {
               <div>
                 <p className="font-medium text-[#323E48]">Ranking</p>
                 <p className="text-xs text-[#5B6670]">Ver posición</p>
-              </div>
-            </button>
-
-            <button
-              onClick={() => navigate({ to: '/assistant' })}
-              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#EB0029]/10 transition-colors text-left border-l-2 border-transparent hover:border-[#EB0029]"
-            >
-              <div>
-                <p className="font-medium text-[#323E48]">Asistente IA</p>
-                <p className="text-xs text-[#5B6670]">Pregunta aquí</p>
               </div>
             </button>
 
@@ -324,6 +314,9 @@ function DashboardPredictionComponent() {
           </button>
         </div>
       </div>
+
+      {/* Floating Chat */}
+      <FloatingChat />
     </div>
   )
 }

@@ -167,12 +167,12 @@ function OnboardingQuestionsComponent() {
             </div>
 
             {/* Recomendación de paneles */}
-            <div className="bg-[#6CC04A]/10 rounded-xl p-6 border-2 border-[#6CC04A]">
+            <div className="bg-[#FF8C00]/10 rounded-xl p-6 border-2 border-[#FF8C00]">
               <h3 className="text-lg font-bold text-[#323E48] mb-4">☀️ Nuestra recomendación</h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-[#5B6670]">Paneles solares necesarios:</span>
-                  <span className="text-3xl font-bold text-[#6CC04A]">{analysisResult.recommendedPanels}</span>
+                  <span className="text-3xl font-bold text-[#FF8C00]">{analysisResult.recommendedPanels}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#5B6670]">Producción mensual:</span>
@@ -180,22 +180,22 @@ function OnboardingQuestionsComponent() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#5B6670]">Excedente mensual:</span>
-                  <span className="text-2xl font-bold text-[#6CC04A]">+{analysisResult.surplus} kWh</span>
+                  <span className="text-2xl font-bold text-[#FF8C00]">+{analysisResult.surplus} kWh</span>
                 </div>
               </div>
             </div>
 
             {/* Ahorro económico */}
-            <div className="bg-[#EB0029]/10 rounded-xl p-6 border-2 border-[#EB0029]">
+            <div className="bg-[#6CC04A]/10 rounded-xl p-6 border-2 border-[#6CC04A]">
               <h3 className="text-lg font-bold text-[#323E48] mb-4">💰 Tu ahorro económico</h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-[#5B6670]">Ahorro mensual:</span>
-                  <span className="text-3xl font-bold text-[#EB0029]">${analysisResult.monthlySavings.toLocaleString()}</span>
+                  <span className="text-3xl font-bold text-[#6CC04A]">${analysisResult.monthlySavings.toLocaleString()}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#5B6670]">Ahorro anual:</span>
-                  <span className="text-2xl font-bold text-[#EB0029]">${analysisResult.yearlySavings.toLocaleString()}</span>
+                  <span className="text-2xl font-bold text-[#6CC04A]">${analysisResult.yearlySavings.toLocaleString()}</span>
                 </div>
                 <div className="border-t border-[#CFD2D3] pt-3 mt-3">
                   <div className="flex items-center justify-between">
@@ -206,57 +206,6 @@ function OnboardingQuestionsComponent() {
               </div>
             </div>
 
-            {/* Impacto ambiental con gráfica donut */}
-            <div className="bg-gradient-to-br from-[#6CC04A]/10 to-[#4A9EEB]/10 rounded-xl p-6 border-2 border-[#6CC04A]">
-              <h3 className="text-lg font-bold text-[#323E48] mb-6 text-center">🌱 Impacto Ambiental</h3>
-              
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                {/* Gráfica Donut */}
-                <div className="flex justify-center">
-                  <DonutChart
-                    percentage={95}
-                    label="Reducción"
-                    value={`${analysisResult.carbonOffset.toLocaleString()} kg CO₂/año`}
-                    color="#6CC04A"
-                    size={220}
-                    strokeWidth={24}
-                  />
-                </div>
-
-                {/* Información adicional */}
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <div className="text-3xl">🌳</div>
-                    <div>
-                      <p className="font-bold text-[#323E48]">Equivalente a plantar</p>
-                      <p className="text-2xl font-bold text-[#6CC04A]">
-                        {Math.round(analysisResult.carbonOffset / 20)} árboles
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-3">
-                    <div className="text-3xl">🚗</div>
-                    <div>
-                      <p className="font-bold text-[#323E48]">Ahorro equivalente a</p>
-                      <p className="text-lg font-bold text-[#4A9EEB]">
-                        {Math.round(analysisResult.carbonOffset / 2.3)} km menos en auto
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-3">
-                    <div className="text-3xl">💧</div>
-                    <div>
-                      <p className="font-bold text-[#323E48]">Agua ahorrada</p>
-                      <p className="text-lg font-bold text-[#4A9EEB]">
-                        {Math.round(analysisResult.panelProduction * 12 * 0.5).toLocaleString()} litros/año
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               <div className="mt-6 pt-6 border-t border-[#CFD2D3]">
                 <div className="bg-white/60 rounded-lg p-4">
                   <p className="text-sm text-[#323E48]">
@@ -265,7 +214,7 @@ function OnboardingQuestionsComponent() {
                   </p>
                 </div>
               </div>
-            </div>
+            
           </div>
 
           <button
