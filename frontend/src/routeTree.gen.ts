@@ -11,12 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestRouteImport } from './routes/test'
 import { Route as StandardRouteImport } from './routes/standard'
-import { Route as SignupAltRouteImport } from './routes/signup-alt'
 import { Route as SignupRouteImport } from './routes/signup'
-import { Route as LoginAltRouteImport } from './routes/login-alt'
+import { Route as ScanRouteImport } from './routes/scan'
+import { Route as OnboardingQuestionsRouteImport } from './routes/onboarding-questions'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LoadingRouteImport } from './routes/loading'
-import { Route as ApplyRouteImport } from './routes/apply'
+import { Route as GamificationRouteImport } from './routes/gamification'
+import { Route as DashboardPredictionRouteImport } from './routes/dashboard-prediction'
+import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as R404RouteImport } from './routes/404'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -30,19 +32,19 @@ const StandardRoute = StandardRouteImport.update({
   path: '/standard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SignupAltRoute = SignupAltRouteImport.update({
-  id: '/signup-alt',
-  path: '/signup-alt',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginAltRoute = LoginAltRouteImport.update({
-  id: '/login-alt',
-  path: '/login-alt',
+const ScanRoute = ScanRouteImport.update({
+  id: '/scan',
+  path: '/scan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingQuestionsRoute = OnboardingQuestionsRouteImport.update({
+  id: '/onboarding-questions',
+  path: '/onboarding-questions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -55,9 +57,19 @@ const LoadingRoute = LoadingRouteImport.update({
   path: '/loading',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApplyRoute = ApplyRouteImport.update({
-  id: '/apply',
-  path: '/apply',
+const GamificationRoute = GamificationRouteImport.update({
+  id: '/gamification',
+  path: '/gamification',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardPredictionRoute = DashboardPredictionRouteImport.update({
+  id: '/dashboard-prediction',
+  path: '/dashboard-prediction',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
 const R404Route = R404RouteImport.update({
@@ -74,24 +86,28 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/404': typeof R404Route
-  '/apply': typeof ApplyRoute
+  '/assistant': typeof AssistantRoute
+  '/dashboard-prediction': typeof DashboardPredictionRoute
+  '/gamification': typeof GamificationRoute
   '/loading': typeof LoadingRoute
   '/login': typeof LoginRoute
-  '/login-alt': typeof LoginAltRoute
+  '/onboarding-questions': typeof OnboardingQuestionsRoute
+  '/scan': typeof ScanRoute
   '/signup': typeof SignupRoute
-  '/signup-alt': typeof SignupAltRoute
   '/standard': typeof StandardRoute
   '/test': typeof TestRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/404': typeof R404Route
-  '/apply': typeof ApplyRoute
+  '/assistant': typeof AssistantRoute
+  '/dashboard-prediction': typeof DashboardPredictionRoute
+  '/gamification': typeof GamificationRoute
   '/loading': typeof LoadingRoute
   '/login': typeof LoginRoute
-  '/login-alt': typeof LoginAltRoute
+  '/onboarding-questions': typeof OnboardingQuestionsRoute
+  '/scan': typeof ScanRoute
   '/signup': typeof SignupRoute
-  '/signup-alt': typeof SignupAltRoute
   '/standard': typeof StandardRoute
   '/test': typeof TestRoute
 }
@@ -99,12 +115,14 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/404': typeof R404Route
-  '/apply': typeof ApplyRoute
+  '/assistant': typeof AssistantRoute
+  '/dashboard-prediction': typeof DashboardPredictionRoute
+  '/gamification': typeof GamificationRoute
   '/loading': typeof LoadingRoute
   '/login': typeof LoginRoute
-  '/login-alt': typeof LoginAltRoute
+  '/onboarding-questions': typeof OnboardingQuestionsRoute
+  '/scan': typeof ScanRoute
   '/signup': typeof SignupRoute
-  '/signup-alt': typeof SignupAltRoute
   '/standard': typeof StandardRoute
   '/test': typeof TestRoute
 }
@@ -113,36 +131,42 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/404'
-    | '/apply'
+    | '/assistant'
+    | '/dashboard-prediction'
+    | '/gamification'
     | '/loading'
     | '/login'
-    | '/login-alt'
+    | '/onboarding-questions'
+    | '/scan'
     | '/signup'
-    | '/signup-alt'
     | '/standard'
     | '/test'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/404'
-    | '/apply'
+    | '/assistant'
+    | '/dashboard-prediction'
+    | '/gamification'
     | '/loading'
     | '/login'
-    | '/login-alt'
+    | '/onboarding-questions'
+    | '/scan'
     | '/signup'
-    | '/signup-alt'
     | '/standard'
     | '/test'
   id:
     | '__root__'
     | '/'
     | '/404'
-    | '/apply'
+    | '/assistant'
+    | '/dashboard-prediction'
+    | '/gamification'
     | '/loading'
     | '/login'
-    | '/login-alt'
+    | '/onboarding-questions'
+    | '/scan'
     | '/signup'
-    | '/signup-alt'
     | '/standard'
     | '/test'
   fileRoutesById: FileRoutesById
@@ -150,12 +174,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   R404Route: typeof R404Route
-  ApplyRoute: typeof ApplyRoute
+  AssistantRoute: typeof AssistantRoute
+  DashboardPredictionRoute: typeof DashboardPredictionRoute
+  GamificationRoute: typeof GamificationRoute
   LoadingRoute: typeof LoadingRoute
   LoginRoute: typeof LoginRoute
-  LoginAltRoute: typeof LoginAltRoute
+  OnboardingQuestionsRoute: typeof OnboardingQuestionsRoute
+  ScanRoute: typeof ScanRoute
   SignupRoute: typeof SignupRoute
-  SignupAltRoute: typeof SignupAltRoute
   StandardRoute: typeof StandardRoute
   TestRoute: typeof TestRoute
 }
@@ -176,13 +202,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StandardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/signup-alt': {
-      id: '/signup-alt'
-      path: '/signup-alt'
-      fullPath: '/signup-alt'
-      preLoaderRoute: typeof SignupAltRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/signup': {
       id: '/signup'
       path: '/signup'
@@ -190,11 +209,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login-alt': {
-      id: '/login-alt'
-      path: '/login-alt'
-      fullPath: '/login-alt'
-      preLoaderRoute: typeof LoginAltRouteImport
+    '/scan': {
+      id: '/scan'
+      path: '/scan'
+      fullPath: '/scan'
+      preLoaderRoute: typeof ScanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding-questions': {
+      id: '/onboarding-questions'
+      path: '/onboarding-questions'
+      fullPath: '/onboarding-questions'
+      preLoaderRoute: typeof OnboardingQuestionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -211,11 +237,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoadingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/apply': {
-      id: '/apply'
-      path: '/apply'
-      fullPath: '/apply'
-      preLoaderRoute: typeof ApplyRouteImport
+    '/gamification': {
+      id: '/gamification'
+      path: '/gamification'
+      fullPath: '/gamification'
+      preLoaderRoute: typeof GamificationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard-prediction': {
+      id: '/dashboard-prediction'
+      path: '/dashboard-prediction'
+      fullPath: '/dashboard-prediction'
+      preLoaderRoute: typeof DashboardPredictionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/404': {
@@ -238,12 +278,14 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   R404Route: R404Route,
-  ApplyRoute: ApplyRoute,
+  AssistantRoute: AssistantRoute,
+  DashboardPredictionRoute: DashboardPredictionRoute,
+  GamificationRoute: GamificationRoute,
   LoadingRoute: LoadingRoute,
   LoginRoute: LoginRoute,
-  LoginAltRoute: LoginAltRoute,
+  OnboardingQuestionsRoute: OnboardingQuestionsRoute,
+  ScanRoute: ScanRoute,
   SignupRoute: SignupRoute,
-  SignupAltRoute: SignupAltRoute,
   StandardRoute: StandardRoute,
   TestRoute: TestRoute,
 }
