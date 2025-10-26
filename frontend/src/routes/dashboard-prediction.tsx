@@ -22,7 +22,7 @@ function DashboardPredictionComponent() {
   const [showConfig, setShowConfig] = useState(false);
 
   const userName = sessionStorage.getItem("user_name") || user?.name;
-  const { api } = useApi();
+  const { api: _ } = useApi();
 
   const handleLogout = () => {
     logout();
