@@ -1,6 +1,7 @@
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
+import { useApi } from '@/api/use-api'
 
 export const Route = createFileRoute('/dashboard-prediction')({
   beforeLoad: async () => {
@@ -21,6 +22,7 @@ function DashboardPredictionComponent() {
   const [showConfig, setShowConfig] = useState(false)
 
   const userName = sessionStorage.getItem('user_name') || user?.name
+  const { api} = useApi();
 
   const handleLogout = () => {
     logout()
