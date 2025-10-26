@@ -6,6 +6,7 @@ import {
   analyzeEnergyProfile,
   type EnergyAnalysisResult,
 } from "@/utils/energyAnalysis";
+import { useApi } from "@/api/use-api";
 
 export const Route = createFileRoute("/onboarding-questions")({
   beforeLoad: async () => {
@@ -25,6 +26,8 @@ function OnboardingQuestionsComponent() {
   const [showResults, setShowResults] = useState(false);
   const [analysisResult, setAnalysisResult] =
     useState<EnergyAnalysisResult | null>(null);
+
+  const { api } = useApi();
 
   const [answers, setAnswers] = useState({
     people: "",
@@ -120,15 +123,40 @@ function OnboardingQuestionsComponent() {
         electricBill: answers.electricBill,
       });
 
-      setAnalysisResult(result);
-
       // Guardar resultado en sessionStorage
       sessionStorage.setItem("energy_analysis", JSON.stringify(result));
 
-      setTimeout(() => {
-        setIsAnalyzing(false);
-        setShowResults(true);
-      }, 3000);
+      try {
+        if (answers.electricBill) {
+          const u = await api.energy.calculate(answers.electricBill).submit();
+
+          setAnalysisResult(() => u as any);
+        }
+
+        // Guardar resultado en sessionStorage
+        sessionStorage.setItem("energy_analysis", JSON.stringify(result));
+        const blob = await api.energy
+          .textToTTS(
+            "Ricardo! Bienvenido al Futuro! Comenzaras a ahorrar y a cuidar el planeta. Banorte, el banco fuerte de Mexico.",
+          )
+          .submit();
+
+        const audio = new Audio(URL.createObjectURL(blob));
+
+        // ✅ Wait for audio to finish before showing results
+        audio.addEventListener("ended", () => {
+          setTimeout(() => {
+            setIsAnalyzing(false);
+            setShowResults(true);
+            navigate({ to: "/dashboard-prediction" });
+          }, 1300);
+        });
+
+        // Start playing
+        await audio.play();
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
 
@@ -233,7 +261,8 @@ function OnboardingQuestionsComponent() {
                       Recuperación de inversión:
                     </span>
                     <span className="text-xl font-bold text-[#323E48]">
-                      {analysisResult.breakEvenYears} años
+                      {Number(analysisResult.breakEvenYears).toPrecision(2)}{" "}
+                      años
                     </span>
                   </div>
                 </div>
