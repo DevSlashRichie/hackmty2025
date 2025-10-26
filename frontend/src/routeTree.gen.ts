@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TestRouteImport } from './routes/test'
 import { Route as StandardRouteImport } from './routes/standard'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ScanRouteImport } from './routes/scan'
@@ -22,11 +21,6 @@ import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as R404RouteImport } from './routes/404'
 import { Route as IndexRouteImport } from './routes/index'
 
-const TestRoute = TestRouteImport.update({
-  id: '/test',
-  path: '/test',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const StandardRoute = StandardRouteImport.update({
   id: '/standard',
   path: '/standard',
@@ -95,7 +89,6 @@ export interface FileRoutesByFullPath {
   '/scan': typeof ScanRoute
   '/signup': typeof SignupRoute
   '/standard': typeof StandardRoute
-  '/test': typeof TestRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -109,7 +102,6 @@ export interface FileRoutesByTo {
   '/scan': typeof ScanRoute
   '/signup': typeof SignupRoute
   '/standard': typeof StandardRoute
-  '/test': typeof TestRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -124,7 +116,6 @@ export interface FileRoutesById {
   '/scan': typeof ScanRoute
   '/signup': typeof SignupRoute
   '/standard': typeof StandardRoute
-  '/test': typeof TestRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -140,7 +131,6 @@ export interface FileRouteTypes {
     | '/scan'
     | '/signup'
     | '/standard'
-    | '/test'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -154,7 +144,6 @@ export interface FileRouteTypes {
     | '/scan'
     | '/signup'
     | '/standard'
-    | '/test'
   id:
     | '__root__'
     | '/'
@@ -168,7 +157,6 @@ export interface FileRouteTypes {
     | '/scan'
     | '/signup'
     | '/standard'
-    | '/test'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -183,18 +171,10 @@ export interface RootRouteChildren {
   ScanRoute: typeof ScanRoute
   SignupRoute: typeof SignupRoute
   StandardRoute: typeof StandardRoute
-  TestRoute: typeof TestRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/test': {
-      id: '/test'
-      path: '/test'
-      fullPath: '/test'
-      preLoaderRoute: typeof TestRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/standard': {
       id: '/standard'
       path: '/standard'
@@ -287,7 +267,6 @@ const rootRouteChildren: RootRouteChildren = {
   ScanRoute: ScanRoute,
   SignupRoute: SignupRoute,
   StandardRoute: StandardRoute,
-  TestRoute: TestRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

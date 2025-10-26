@@ -62,10 +62,7 @@ export class Client {
   private readonly t: string | undefined;
   private readonly baseUrl: string;
 
-  constructor(
-    baseUrl: string,
-    t?: string,
-  ) {
+  constructor(baseUrl: string, t?: string) {
     this.baseUrl = baseUrl;
     this.t = t;
   }
@@ -86,6 +83,7 @@ export class Client {
     config?: {
       removeAuth?: boolean;
       credentials?: boolean;
+      route: any;
     },
   ) {
     const route = makeUrl(this.baseUrl, {

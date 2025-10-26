@@ -24,7 +24,7 @@ export abstract class UseCase {
           () => Promise.reject(),
         );
 
-      const { submit, route, request } = func(this);
+      const { submit, route } = func(this);
 
       return useSWR(route, submit, conf);
     };

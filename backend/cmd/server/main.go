@@ -7,6 +7,7 @@ import (
 
 	"github.com/devslashrichie/resumero/internal/domain/energy"
 	"github.com/devslashrichie/resumero/internal/domain/user"
+	"github.com/devslashrichie/resumero/internal/external/elevenlabs"
 	"github.com/devslashrichie/resumero/internal/external/gemini"
 	"github.com/devslashrichie/resumero/internal/http"
 	"github.com/devslashrichie/resumero/internal/repository/postgres"
@@ -37,8 +38,9 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Unable to connect to gemini %v\n", err)
 	}
 
-	//resumeService := resume.NewService(geminiClient)
-	energyService := energy.NewService(geminiClient)
+	elevenClient := elevenlabs.NewClient(os.Getenv("ELEVEN_API_KEY"))
+
+	energyService := energy.NewService(geminiClient, elevenClient)
 
 	r := http.NewRouter(userService, energyService)
 

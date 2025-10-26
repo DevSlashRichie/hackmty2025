@@ -2,7 +2,9 @@ package handlers
 
 import (
 	"bytes"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/devslashrichie/resumero/internal/domain/energy"
 	"github.com/gin-gonic/gin"
@@ -137,4 +139,33 @@ func (h *EnergyHandler) GetMonthlyConsumption(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, mockConsumptionData)
+}
+
+func (h *EnergyHandler) TextToTTS(c *gin.Context) {
+	var input struct {
+		Text string `json:"text"`
+	}
+
+	if err := c.BindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Could not parse request body.",
+			"error":   err.Error(),
+		})
+		return
+	}
+
+	audio, err := h.service.GenerateTTS(input.Text)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not convert text to speech.",
+			"error":   err.Error(),
+		})
+		return
+	}
+
+	if err := os.WriteFile("debug_output.mpeg", audio, 0644); err != nil {
+		log.Printf("Error writing debug file: %v", err)
+	}
+
+	c.Data(http.StatusOK, "audio/mpeg", audio)
 }

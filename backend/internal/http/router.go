@@ -19,6 +19,7 @@ func NewRouter(userService *user.Service, energyService *energy.Service) *gin.En
 	r.POST("/users", userHandler.CreateUser)
 	r.POST("/energy/calculate_panels", calculatePanels.CalcualtePanels)
 	r.POST("/energy/calculate_from_file", calculatePanels.CalculatePanelsFromFile)
+	r.POST("/energy/tts", calculatePanels.TextToTTS)
 	r.GET("/energy/monthly_consumption", calculatePanels.GetMonthlyConsumption)
 
 	return r
