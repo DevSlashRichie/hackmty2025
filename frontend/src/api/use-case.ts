@@ -1,3 +1,4 @@
+// @ts-ignore
 import useSWR, { preload } from "swr";
 import type { KeyedMutator, SWRConfiguration, SWRResponse } from "swr";
 
