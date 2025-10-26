@@ -39,19 +39,19 @@ export function Navbar() {
               Inicio
             </Link>
             <Link 
-              to="/standard"
+              to="/#"
               className="text-[14px] lg:text-[15px] text-[#5B6670] hover:text-[#EB0029] transition-colors"
             >
               Solicitar prestamo
             </Link>
             <Link 
-              to="/standard"
+              to="/#"
               className="text-[14px] lg:text-[15px] text-[#5B6670] hover:text-[#EB0029] transition-colors"
             >
               Certificación
             </Link>
             <Link 
-              to="/standard"
+              to="/#"
               className="text-[14px] lg:text-[15px] text-[#5B6670] hover:text-[#EB0029] transition-colors"
             >
               Nuestros programas

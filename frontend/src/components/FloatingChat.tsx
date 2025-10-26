@@ -102,10 +102,10 @@ export function FloatingChat() {
 
   return (
     <>
-      {/* Botón flotante */}
+      {/* Botón flotante - Solo Desktop */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center ${
+        className={`hidden lg:flex fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg transition-all duration-300 items-center justify-center ${
           isOpen ? "bg-[#323E48]" : "bg-[#EB0029] hover:bg-[#DB0026]"
         }`}
       >
