@@ -94,60 +94,72 @@ function DashboardPredictionComponent() {
         <div className="flex-1 p-4 md:p-6 w-full lg:w-auto lg:mr-64">
           <div className="max-w-6xl mx-auto">
             <div className="bg-white rounded-xl md:rounded-2xl shadow-xl p-4 md:p-8">
-              {/* Header con título - Desktop */}
-              <div className="mb-4 md:mb-6 hidden lg:block">
-                <h1 className="text-2xl md:text-3xl font-bold text-[#323E48] mb-2">
-                  ☀️ Tu Energía Hoy
+              {/* Header con título */}
+              <div className="mb-4 md:mb-10 text-center">
+                <h1 className="text-2xl md:text-4xl font-bold text-[#323E48] mb-2 md:mb-3">
+                  Tu Energía en Tiempo Real
                 </h1>
-                <p className="text-[#5B6670] text-sm md:text-base">
-                  Sábado, {new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })}
+                <p className="text-[#5B6670] text-xs md:text-lg hidden md:block">
+                  {new Date().toLocaleDateString('es-MX', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                  {' - '}
+                  {new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })}
+                </p>
+                <p className="text-[#5B6670] text-xs md:hidden">
+                  {new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })}
                 </p>
               </div>
 
-              {/* Gráfica simulada */}
-              <div className="mb-6 md:mb-8">
-                <div className="flex items-end justify-between h-24 md:h-32 mb-4">
-                  {[...Array(20)].map((_, i) => {
-                    const height = Math.sin(i * 0.5) * 50 + 50
-                    return (
-                      <div
-                        key={i}
-                        className="flex-1 bg-gradient-to-t from-[#EB0029] to-[#FF6B6B] rounded-t mx-0.5"
-                        style={{ height: `${height}%` }}
-                      />
-                    )
-                  })}
-                </div>
-                
-                {/* Leyenda */}
-                <div className="flex items-center justify-center gap-4 md:gap-8">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 md:w-4 md:h-4 bg-[#EB0029] rounded"></div>
-                    <span className="text-xs md:text-sm text-[#5B6670]">Producción</span>
+              {/* Métricas en tiempo real - Rediseñadas */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 mb-6 md:mb-10">
+                {/* Produciendo */}
+                <div className="bg-gradient-to-br from-[#EB0029]/10 to-[#EB0029]/5 border-2 border-[#EB0029] rounded-2xl p-4 md:p-8 text-center transform transition-all hover:scale-105 hover:shadow-xl h-[30vh] md:h-auto flex flex-col justify-center overflow-hidden">
+                  <div className="inline-flex items-center justify-center w-12 h-12 md:w-20 md:h-20 bg-[#EB0029] rounded-full mx-auto mb-2 md:mb-4">
+                    <svg className="w-6 h-6 md:w-10 md:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 md:w-4 md:h-4 bg-[#4A9EEB] rounded"></div>
-                    <span className="text-xs md:text-sm text-[#5B6670]">Consumo</span>
+                  <p className="text-[11px] md:text-base text-[#5B6670] font-medium mb-2 md:mb-3">Produciendo</p>
+                  <p className="text-4xl md:text-6xl font-bold text-[#EB0029] leading-none mb-1 md:mb-2">
+                    {currentProduction.toFixed(1)}
+                  </p>
+                  <p className="text-sm md:text-xl text-[#5B6670] font-semibold">kW</p>
+                  <div className="mt-2 md:mt-4 pt-2 md:pt-4 border-t border-[#EB0029]/20 w-full">
+                    <p className="text-[10px] md:text-sm text-[#5B6670] leading-tight px-2">Energía solar generada</p>
                   </div>
                 </div>
-              </div>
 
-              {/* Métricas en tiempo real */}
-              <div className="grid grid-cols-3 gap-2 md:gap-6 mb-6 md:mb-8">
-                <div className="bg-[#F6F6F6] rounded-lg md:rounded-xl p-3 md:p-6 text-center">
-                  <p className="text-xs md:text-sm text-[#5B6670] mb-1 md:mb-2">Produciendo</p>
-                  <p className="text-xl md:text-4xl font-bold text-[#EB0029]">{currentProduction.toFixed(1)}</p>
-                  <p className="text-xs text-[#5B6670] mt-1">kW</p>
+                {/* Consumiendo */}
+                <div className="bg-gradient-to-br from-[#4A9EEB]/10 to-[#4A9EEB]/5 border-2 border-[#4A9EEB] rounded-2xl p-4 md:p-8 text-center transform transition-all hover:scale-105 hover:shadow-xl h-[30vh] md:h-auto flex flex-col justify-center overflow-hidden">
+                  <div className="inline-flex items-center justify-center w-12 h-12 md:w-20 md:h-20 bg-[#4A9EEB] rounded-full mx-auto mb-2 md:mb-4">
+                    <svg className="w-6 h-6 md:w-10 md:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                  </div>
+                  <p className="text-[11px] md:text-base text-[#5B6670] font-medium mb-2 md:mb-3">Consumiendo</p>
+                  <p className="text-4xl md:text-6xl font-bold text-[#4A9EEB] leading-none mb-1 md:mb-2">
+                    {currentConsumption.toFixed(1)}
+                  </p>
+                  <p className="text-sm md:text-xl text-[#5B6670] font-semibold">kW</p>
+                  <div className="mt-2 md:mt-4 pt-2 md:pt-4 border-t border-[#4A9EEB]/20 w-full">
+                    <p className="text-[10px] md:text-sm text-[#5B6670] leading-tight px-2">Consumo actual del hogar</p>
+                  </div>
                 </div>
-                <div className="bg-[#F6F6F6] rounded-lg md:rounded-xl p-3 md:p-6 text-center">
-                  <p className="text-xs md:text-sm text-[#5B6670] mb-1 md:mb-2">Consumiendo</p>
-                  <p className="text-xl md:text-4xl font-bold text-[#4A9EEB]">{currentConsumption.toFixed(1)}</p>
-                  <p className="text-xs text-[#5B6670] mt-1">kW</p>
-                </div>
-                <div className="bg-[#F6F6F6] rounded-lg md:rounded-xl p-3 md:p-6 text-center">
-                  <p className="text-xs md:text-sm text-[#5B6670] mb-1 md:mb-2">Excedente</p>
-                  <p className="text-xl md:text-4xl font-bold text-[#6CC04A]">+{surplus.toFixed(1)}</p>
-                  <p className="text-xs text-[#5B6670] mt-1">kW</p>
+
+                {/* Excedente */}
+                <div className="bg-gradient-to-br from-[#6CC04A]/10 to-[#6CC04A]/5 border-2 border-[#6CC04A] rounded-2xl p-4 md:p-8 text-center transform transition-all hover:scale-105 hover:shadow-xl h-[30vh] md:h-auto flex flex-col justify-center overflow-hidden">
+                  <div className="inline-flex items-center justify-center w-12 h-12 md:w-20 md:h-20 bg-[#6CC04A] rounded-full mx-auto mb-2 md:mb-4">
+                    <svg className="w-6 h-6 md:w-10 md:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <p className="text-[11px] md:text-base text-[#5B6670] font-medium mb-2 md:mb-3">Excedente</p>
+                  <p className="text-4xl md:text-6xl font-bold text-[#6CC04A] leading-none mb-1 md:mb-2">
+                    +{surplus.toFixed(1)}
+                  </p>
+                  <p className="text-sm md:text-xl text-[#5B6670] font-semibold">kW</p>
+                  <div className="mt-2 md:mt-4 pt-2 md:pt-4 border-t border-[#6CC04A]/20 w-full">
+                    <p className="text-[10px] md:text-sm text-[#5B6670] leading-tight px-2">Energía disponible</p>
+                  </div>
                 </div>
               </div>
 
