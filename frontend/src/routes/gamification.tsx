@@ -63,22 +63,6 @@ function GamificationComponent() {
 
   return (
     <div className="h-screen bg-[#F6F6F6] flex flex-col overflow-hidden">
-      {/* Header - Solo Desktop */}
-      <div className="hidden lg:block bg-white border-b border-[#CFD2D3] p-4">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <button
-            onClick={() => navigate({ to: '/dashboard-prediction' })}
-            className="text-[#EB0029] hover:underline"
-          >
-            ← Volver
-          </button>
-          <h1 className="text-xl font-bold text-[#323E48]">
-            🏆 Liga Solar
-          </h1>
-          <div className="w-20"></div>
-        </div>
-      </div>
-
       {/* Modal de configuración - Móvil */}
       {showConfig && (
         <>
@@ -120,16 +104,18 @@ function GamificationComponent() {
         </>
       )}
 
-      {/* Contenido */}
-      <div className="flex-1 overflow-y-auto pb-16 lg:pb-0">
-        <div className="max-w-4xl mx-auto p-6">
+      {/* Contenido principal */}
+      <div className="flex flex-1 relative">
+        {/* Contenido principal */}
+        <div className="flex-1 overflow-y-auto pb-16 lg:pb-0 lg:mr-64">
+          <div className="max-w-4xl mx-auto p-6">
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
             {/* Header de colonia */}
-            <div className="bg-gradient-to-r from-[#EB0029] to-[#FF6B6B] text-white p-8 text-center">
+            <div className="bg-[#EB0029] text-white p-8 text-center">
               <h2 className="text-3xl font-bold mb-2">
-                🏘️ TU COLONIA: VALLE VERDE
+                TU COLONIA: VALLE VERDE
               </h2>
-              <p className="text-white/90">🏆 LIGA SOLAR - Semana 42</p>
+              <p className="text-white/90"> LIGA SOLAR - Semana 42</p>
             </div>
 
             <div className="p-8">
@@ -144,7 +130,7 @@ function GamificationComponent() {
                   : 'bg-[#F6F6F6] text-[#5B6670] hover:bg-[#CFD2D3]'
               }`}
             >
-              📅 Semana
+              Semana
             </button>
             <button
               onClick={() => setActiveTab('month')}
@@ -154,7 +140,7 @@ function GamificationComponent() {
                   : 'bg-[#F6F6F6] text-[#5B6670] hover:bg-[#CFD2D3]'
               }`}
             >
-              📆 Mes
+              Mes
             </button>
             <button
               onClick={() => setActiveTab('year')}
@@ -164,19 +150,19 @@ function GamificationComponent() {
                   : 'bg-[#F6F6F6] text-[#5B6670] hover:bg-[#CFD2D3]'
               }`}
             >
-              📊 Año
+              Año
             </button>
           </div>
 
           {/* Ranking */}
-          <div className="space-y-3 mb-8">
+          <div className="space-y-4 mb-8">
             {ranking.map((entry, idx) => {
               // Mostrar top 3 y luego "..." antes del usuario si no está en top
               if (idx > 2 && idx < ranking.length - 1 && !entry.isUser) {
                 if (idx === 3) {
                   return (
-                    <div key="separator" className="text-center py-2">
-                      <span className="text-2xl text-[#5B6670]">...</span>
+                    <div key="separator" className="text-center py-3">
+                      <span className="text-3xl text-[#A2A9AD]">⋮</span>
                     </div>
                   )
                 }
@@ -186,59 +172,70 @@ function GamificationComponent() {
               return (
                 <div
                   key={entry.position}
-                  className={`rounded-xl p-5 transition-all ${
+                  className={`rounded-2xl p-6 transition-all transform hover:scale-[1.02] ${
                     entry.isUser
-                      ? 'bg-gradient-to-r from-[#EB0029]/10 to-[#4A9EEB]/10 border-2 border-[#EB0029] shadow-lg'
-                      : entry.position <= 3
-                      ? 'bg-gradient-to-r from-[#FFD700]/20 to-[#FFA500]/10 border-2 border-[#FFD700]/50'
-                      : 'bg-[#F6F6F6] hover:bg-[#EFEFEF]'
+                      ? 'bg-gradient-to-br from-[#EB0029]/10 via-[#FF6B6B]/5 to-[#4A9EEB]/10 border-2 border-[#EB0029] shadow-xl'
+                      : entry.position === 1
+                      ? 'bg-gradient-to-br from-[#FFD700]/30 via-[#FFA500]/20 to-[#FFD700]/10 border-2 border-[#FFD700] shadow-lg'
+                      : entry.position === 2
+                      ? 'bg-gradient-to-br from-[#C0C0C0]/30 via-[#E8E8E8]/20 to-[#C0C0C0]/10 border-2 border-[#C0C0C0] shadow-lg'
+                      : entry.position === 3
+                      ? 'bg-gradient-to-br from-[#CD7F32]/30 via-[#D4A574]/20 to-[#CD7F32]/10 border-2 border-[#CD7F32] shadow-lg'
+                      : 'bg-white border-2 border-[#E5E7EB] hover:border-[#CFD2D3] shadow-md'
                   }`}
                 >
-                  <div className="flex items-center gap-4">
-                    {/* Posición con emoji */}
-                    <div className="flex flex-col items-center min-w-[60px]">
-                      <div className="text-4xl mb-1">
+                  <div className="flex items-center gap-5">
+                    {/* Posición con emoji y efecto */}
+                    <div className="flex flex-col items-center min-w-[70px]">
+                      <div className={`text-5xl mb-2 ${entry.position <= 3 ? 'animate-pulse' : ''}`}>
                         {entry.emoji || `#${entry.position}`}
                       </div>
                       {entry.position <= 3 && !entry.isUser && (
-                        <div className="text-xs font-bold text-[#EB0029]">
-                          Top {entry.position}
+                        <div className={`text-xs font-bold px-2 py-1 rounded-full ${
+                          entry.position === 1 ? 'bg-[#FFD700] text-[#323E48]' :
+                          entry.position === 2 ? 'bg-[#C0C0C0] text-[#323E48]' :
+                          'bg-[#CD7F32] text-white'
+                        }`}>
+                          TOP {entry.position}
                         </div>
                       )}
                     </div>
 
                     {/* Info */}
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className={`font-bold text-lg ${entry.isUser ? 'text-[#EB0029]' : 'text-[#323E48]'}`}>
-                          Casa {entry.house} - "{entry.name}"
+                      <div className="flex items-center gap-3 mb-3">
+                        <span className={`font-bold text-xl ${entry.isUser ? 'text-[#EB0029]' : 'text-[#323E48]'}`}>
+                          Casa {entry.house}
                         </span>
-                        {entry.streak > 0 && (
-                          <span className="text-sm bg-[#EB0029] text-white px-3 py-1 rounded-full font-medium">
-                            🔥 Racha: {entry.streak} {entry.streak === 1 ? 'semana' : 'semanas'}
-                          </span>
-                        )}
+                        <span className={`text-lg ${entry.isUser ? 'text-[#EB0029]' : 'text-[#5B6670]'}`}>
+                          "{entry.name}"
+                        </span>
                       </div>
-                      <div className="flex items-center gap-6 text-sm">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[#5B6670]">⚡</span>
-                          <span className="font-semibold text-[#323E48]">{entry.energy} kWh</span>
+                      
+                      {/* Métricas mejoradas */}
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="bg-white/80 rounded-lg px-3 py-2 border border-[#E5E7EB]">
+                          <div className="flex items-center gap-2 mb-1">
+
+                            <span className="text-xs text-[#5B6670] font-medium">Energía</span>
+                          </div>
+                          <span className="font-bold text-lg text-[#323E48]">{entry.energy} kWh</span>
                         </div>
-                        <div className="h-4 w-px bg-[#CFD2D3]"></div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-[#5B6670]">📊</span>
-                          <span className="font-semibold text-[#323E48]">{entry.efficiency}% eficiencia</span>
+                        <div className="bg-white/80 rounded-lg px-3 py-2 border border-[#E5E7EB]">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-xs text-[#5B6670] font-medium">Eficiencia</span>
+                          </div>
+                          <span className="font-bold text-lg text-[#6CC04A]">{entry.efficiency}%</span>
+                        </div>
+                        <div className="bg-white/80 rounded-lg px-3 py-2 border border-[#E5E7EB]">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-lg">🔥</span>
+                            <span className="text-xs text-[#5B6670] font-medium">Racha</span>
+                          </div>
+                          <span className="font-bold text-lg text-[#EB0029]">{entry.streak} {entry.streak === 1 ? 'sem' : 'sems'}</span>
                         </div>
                       </div>
                     </div>
-
-                    {/* Badge especial para el usuario */}
-                    {entry.isUser && (
-                      <div className="flex flex-col items-center gap-1">
-                        <div className="text-3xl">👤</div>
-                        <div className="text-xs text-[#EB0029] font-bold">TÚ</div>
-                      </div>
-                    )}
                   </div>
                 </div>
               )
@@ -246,10 +243,10 @@ function GamificationComponent() {
           </div>
 
           {/* Consejo de líderes rotativo */}
-          <div className="bg-gradient-to-br from-[#6CC04A]/10 to-[#4A9EEB]/10 border-2 border-[#6CC04A]/30 rounded-2xl p-6 mb-6">
+          <div className="bg-gradient-to-br from-[#6CC04A]/10 to-[#4A9EEB]/10 border-2 border-[#6CC04A]/30 rounded-2xl p-6">
             <div className="flex items-start justify-between mb-4">
               <h4 className="font-bold text-[#323E48] text-lg flex items-center gap-2">
-                💡 CONSEJO DE LOS LÍDERES
+                CONSEJO DE LOS LÍDERES
               </h4>
               <div className="flex gap-2">
                 <button
@@ -267,9 +264,9 @@ function GamificationComponent() {
               </div>
             </div>
             
-            <div className="bg-white rounded-lg p-4 mb-4">
+            <div className="bg-white rounded-lg p-4">
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-2xl">👑</span>
+
                 <span className="font-semibold text-[#323E48]">{leaderTips[currentTip].leader}</span>
                 <span className="text-xs bg-[#6CC04A] text-white px-2 py-1 rounded">
                   {leaderTips[currentTip].category}
@@ -278,55 +275,6 @@ function GamificationComponent() {
               <p className="text-[#323E48]">
                 {leaderTips[currentTip].tip}
               </p>
-            </div>
-
-            <div className="flex gap-3">
-              <button className="flex-1 py-3 bg-[#6CC04A] text-white font-medium rounded-lg hover:bg-[#5BA839] transition-colors flex items-center justify-center gap-2">
-                <span>🎯</span>
-                <span>Ver estrategias ganadoras</span>
-              </button>
-              <button 
-                onClick={() => setShowChat(true)}
-                className="flex-1 py-3 bg-[#4A9EEB] text-white font-medium rounded-lg hover:bg-[#3A8EDB] transition-colors flex items-center justify-center gap-2"
-              >
-                <span>💬</span>
-                <span>Chatear con vecinos</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Premios */}
-          <div className="bg-[#F6F6F6] rounded-xl p-6">
-            <h4 className="font-bold text-[#323E48] mb-4 text-lg">🎁 Premios este mes</h4>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between bg-white rounded-lg p-3">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">🥇</span>
-                  <span className="text-[#5B6670]">1er lugar:</span>
-                </div>
-                <span className="font-bold text-[#EB0029]">$500 descuento hipoteca</span>
-              </div>
-              <div className="flex items-center justify-between bg-white rounded-lg p-3">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">🥈</span>
-                  <span className="text-[#5B6670]">2do lugar:</span>
-                </div>
-                <span className="font-bold text-[#EB0029]">$300 descuento hipoteca</span>
-              </div>
-              <div className="flex items-center justify-between bg-white rounded-lg p-3">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">🥉</span>
-                  <span className="text-[#5B6670]">3er lugar:</span>
-                </div>
-                <span className="font-bold text-[#EB0029]">$200 descuento hipoteca</span>
-              </div>
-              <div className="flex items-center justify-between bg-white rounded-lg p-3">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">🎯</span>
-                  <span className="text-[#5B6670]">Top 10:</span>
-                </div>
-                <span className="font-bold text-[#6CC04A]">Badge especial + reconocimiento</span>
-              </div>
             </div>
           </div>
         </div>
@@ -381,9 +329,65 @@ function GamificationComponent() {
                   </button>
                 </div>
               </div>
+            </div>          </div>
+        )}
+        </div>
+
+        {/* Sidebar derecho - Solo Desktop */}
+        <div className="hidden lg:block fixed top-16 right-0 h-[calc(100vh-4rem)] w-64 bg-white border-l border-[#CFD2D3] p-6 overflow-y-auto">
+          <div className="space-y-3">
+            <h2 className="text-lg font-bold text-[#323E48] mb-4">Acciones</h2>
+            
+            <button
+              onClick={() => navigate({ to: '/dashboard-prediction' })}
+              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#EB0029]/10 transition-colors text-left border-l-2 border-transparent hover:border-[#EB0029]"
+            >
+              <div>
+                <p className="font-medium text-[#323E48]">Dashboard</p>
+                <p className="text-xs text-[#5B6670]">Ver energía</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => navigate({ to: '/scan' })}
+              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#EB0029]/10 transition-colors text-left border-l-2 border-transparent hover:border-[#EB0029]"
+            >
+              <div>
+                <p className="font-medium text-[#323E48]">Escanear</p>
+                <p className="text-xs text-[#5B6670]">Recibo de luz</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => navigate({ to: '/gamification' })}
+              className="w-full flex items-center gap-3 p-3 rounded-lg bg-[#EB0029]/10 transition-colors text-left border-l-2 border-[#EB0029]"
+            >
+              <div>
+                <p className="font-medium text-[#323E48]">Ranking</p>
+                <p className="text-xs text-[#5B6670]">Ver posición</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => navigate({ to: '/assistant' })}
+              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#EB0029]/10 transition-colors text-left border-l-2 border-transparent hover:border-[#EB0029]"
+            >
+              <div>
+                <p className="font-medium text-[#323E48]">Asistente IA</p>
+                <p className="text-xs text-[#5B6670]">Pregunta aquí</p>
+              </div>
+            </button>
+
+            <div className="pt-4 border-t border-[#CFD2D3] mt-4">
+              <div className="bg-[#F6F6F6] rounded-lg p-4 border-l-4 border-[#6CC04A]">
+                <p className="text-sm font-semibold text-[#323E48] mb-2">Consejo del día</p>
+                <p className="text-xs text-[#5B6670]">
+                  Compite con tus vecinos y aprende de los mejores para mejorar tu eficiencia energética.
+                </p>
+              </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
 
       {/* Bottom Navigation - Móvil y Tablet */}
