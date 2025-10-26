@@ -211,23 +211,23 @@ function DashboardPredictionComponent() {
         </div>
 
         {/* Sidebar derecho - Solo Desktop */}
-        <div className="hidden lg:block fixed top-20 right-0 h-[calc(100vh-80px)] w-64 bg-white border-l border-[#CFD2D3] p-6 overflow-y-auto">
-          <div className="space-y-4">
-            <h2 className="text-lg font-bold text-[#323E48] mb-6">Acciones</h2>
+        <div className="hidden lg:block fixed top-16 right-0 h-[calc(100vh-4rem)] w-64 bg-white border-l border-[#CFD2D3] p-6 overflow-y-auto">
+          <div className="space-y-3">
+            <h2 className="text-lg font-bold text-[#323E48] mb-4">Acciones</h2>
             
             <button
-              onClick={() => navigate({ to: '/assistant' })}
-              className="w-full flex items-center gap-3 p-4 rounded-lg bg-[#F6F6F6] transition-colors text-left border-l-2 border-[#EB0029]"
+              onClick={() => navigate({ to: '/dashboard-prediction' })}
+              className="w-full flex items-center gap-3 p-3 rounded-lg bg-[#EB0029]/10 transition-colors text-left border-l-2 border-[#EB0029]"
             >
               <div>
-                <p className="font-medium text-[#323E48]">Asistente</p>
-                <p className="text-xs text-[#5B6670]">Pregunta aquí</p>
+                <p className="font-medium text-[#323E48]">Dashboard</p>
+                <p className="text-xs text-[#5B6670]">Ver energía</p>
               </div>
             </button>
 
             <button
               onClick={() => navigate({ to: '/scan' })}
-              className="w-full flex items-center gap-3 p-4 rounded-lg hover:bg-[#F6F6F6] transition-colors text-left border-l-2 border-transparent hover:border-[#CFD2D3]"
+              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#EB0029]/10 transition-colors text-left border-l-2 border-transparent hover:border-[#EB0029]"
             >
               <div>
                 <p className="font-medium text-[#323E48]">Escanear</p>
@@ -237,7 +237,7 @@ function DashboardPredictionComponent() {
 
             <button
               onClick={() => navigate({ to: '/gamification' })}
-              className="w-full flex items-center gap-3 p-4 rounded-lg hover:bg-[#F6F6F6] transition-colors text-left border-l-2 border-transparent hover:border-[#CFD2D3]"
+              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#EB0029]/10 transition-colors text-left border-l-2 border-transparent hover:border-[#EB0029]"
             >
               <div>
                 <p className="font-medium text-[#323E48]">Ranking</p>
@@ -245,8 +245,18 @@ function DashboardPredictionComponent() {
               </div>
             </button>
 
-            <div className="pt-6 border-t border-[#CFD2D3] mt-6">
-              <div className="bg-[#F6F6F6] rounded-lg p-4">
+            <button
+              onClick={() => navigate({ to: '/assistant' })}
+              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#EB0029]/10 transition-colors text-left border-l-2 border-transparent hover:border-[#EB0029]"
+            >
+              <div>
+                <p className="font-medium text-[#323E48]">Asistente IA</p>
+                <p className="text-xs text-[#5B6670]">Pregunta aquí</p>
+              </div>
+            </button>
+
+            <div className="pt-4 border-t border-[#CFD2D3] mt-4">
+              <div className="bg-[#F6F6F6] rounded-lg p-4 border-l-4 border-[#6CC04A]">
                 <p className="text-sm font-semibold text-[#323E48] mb-2">Consejo del día</p>
                 <p className="text-xs text-[#5B6670]">
                   Aprovecha el sol de 12-3pm para usar electrodomésticos de alto consumo.

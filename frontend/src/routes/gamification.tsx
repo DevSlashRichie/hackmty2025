@@ -63,22 +63,6 @@ function GamificationComponent() {
 
   return (
     <div className="h-screen bg-[#F6F6F6] flex flex-col overflow-hidden">
-      {/* Header - Solo Desktop */}
-      <div className="hidden lg:block bg-white border-b border-[#CFD2D3] p-4">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <button
-            onClick={() => navigate({ to: '/dashboard-prediction' })}
-            className="text-[#EB0029] hover:underline"
-          >
-            ← Volver
-          </button>
-          <h1 className="text-xl font-bold text-[#323E48]">
-            🏆 Liga Solar
-          </h1>
-          <div className="w-20"></div>
-        </div>
-      </div>
-
       {/* Modal de configuración - Móvil */}
       {showConfig && (
         <>
@@ -120,9 +104,11 @@ function GamificationComponent() {
         </>
       )}
 
-      {/* Contenido */}
-      <div className="flex-1 overflow-y-auto pb-16 lg:pb-0">
-        <div className="max-w-4xl mx-auto p-6">
+      {/* Contenido principal */}
+      <div className="flex flex-1 relative">
+        {/* Contenido principal */}
+        <div className="flex-1 overflow-y-auto pb-16 lg:pb-0 lg:mr-64">
+          <div className="max-w-4xl mx-auto p-6">
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
             {/* Header de colonia */}
             <div className="bg-[#EB0029] text-white p-8 text-center">
@@ -227,30 +213,28 @@ function GamificationComponent() {
                       </div>
                       
                       {/* Métricas mejoradas */}
-                      <div className="grid grid-cols-2 gap-3 mb-3">
+                      <div className="grid grid-cols-3 gap-3">
                         <div className="bg-white/80 rounded-lg px-3 py-2 border border-[#E5E7EB]">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="text-lg">⚡</span>
+
                             <span className="text-xs text-[#5B6670] font-medium">Energía</span>
                           </div>
                           <span className="font-bold text-lg text-[#323E48]">{entry.energy} kWh</span>
                         </div>
                         <div className="bg-white/80 rounded-lg px-3 py-2 border border-[#E5E7EB]">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="text-lg">📊</span>
                             <span className="text-xs text-[#5B6670] font-medium">Eficiencia</span>
                           </div>
                           <span className="font-bold text-lg text-[#6CC04A]">{entry.efficiency}%</span>
                         </div>
-                      </div>
-
-                      {/* Racha */}
-                      {entry.streak > 0 && (
-                        <div className="inline-flex items-center gap-2 bg-[#EB0029] text-white px-4 py-2 rounded-full font-medium shadow-md">
-                          <span className="text-lg">🔥</span>
-                          <span className="text-sm">Racha: {entry.streak} {entry.streak === 1 ? 'semana' : 'semanas'}</span>
+                        <div className="bg-white/80 rounded-lg px-3 py-2 border border-[#E5E7EB]">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-lg">🔥</span>
+                            <span className="text-xs text-[#5B6670] font-medium">Racha</span>
+                          </div>
+                          <span className="font-bold text-lg text-[#EB0029]">{entry.streak} {entry.streak === 1 ? 'sem' : 'sems'}</span>
                         </div>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -345,9 +329,65 @@ function GamificationComponent() {
                   </button>
                 </div>
               </div>
+            </div>          </div>
+        )}
+        </div>
+
+        {/* Sidebar derecho - Solo Desktop */}
+        <div className="hidden lg:block fixed top-16 right-0 h-[calc(100vh-4rem)] w-64 bg-white border-l border-[#CFD2D3] p-6 overflow-y-auto">
+          <div className="space-y-3">
+            <h2 className="text-lg font-bold text-[#323E48] mb-4">Acciones</h2>
+            
+            <button
+              onClick={() => navigate({ to: '/dashboard-prediction' })}
+              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#EB0029]/10 transition-colors text-left border-l-2 border-transparent hover:border-[#EB0029]"
+            >
+              <div>
+                <p className="font-medium text-[#323E48]">Dashboard</p>
+                <p className="text-xs text-[#5B6670]">Ver energía</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => navigate({ to: '/scan' })}
+              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#EB0029]/10 transition-colors text-left border-l-2 border-transparent hover:border-[#EB0029]"
+            >
+              <div>
+                <p className="font-medium text-[#323E48]">Escanear</p>
+                <p className="text-xs text-[#5B6670]">Recibo de luz</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => navigate({ to: '/gamification' })}
+              className="w-full flex items-center gap-3 p-3 rounded-lg bg-[#EB0029]/10 transition-colors text-left border-l-2 border-[#EB0029]"
+            >
+              <div>
+                <p className="font-medium text-[#323E48]">Ranking</p>
+                <p className="text-xs text-[#5B6670]">Ver posición</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => navigate({ to: '/assistant' })}
+              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#EB0029]/10 transition-colors text-left border-l-2 border-transparent hover:border-[#EB0029]"
+            >
+              <div>
+                <p className="font-medium text-[#323E48]">Asistente IA</p>
+                <p className="text-xs text-[#5B6670]">Pregunta aquí</p>
+              </div>
+            </button>
+
+            <div className="pt-4 border-t border-[#CFD2D3] mt-4">
+              <div className="bg-[#F6F6F6] rounded-lg p-4 border-l-4 border-[#6CC04A]">
+                <p className="text-sm font-semibold text-[#323E48] mb-2">Consejo del día</p>
+                <p className="text-xs text-[#5B6670]">
+                  Compite con tus vecinos y aprende de los mejores para mejorar tu eficiencia energética.
+                </p>
+              </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
 
       {/* Bottom Navigation - Móvil y Tablet */}
