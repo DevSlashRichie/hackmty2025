@@ -42,13 +42,19 @@ export function Navbar() {
               to="/standard"
               className="text-[14px] lg:text-[15px] text-[#5B6670] hover:text-[#EB0029] transition-colors"
             >
-              Aplica
+              Solicitar prestamo
             </Link>
             <Link 
               to="/standard"
               className="text-[14px] lg:text-[15px] text-[#5B6670] hover:text-[#EB0029] transition-colors"
             >
               Certificación
+            </Link>
+            <Link 
+              to="/standard"
+              className="text-[14px] lg:text-[15px] text-[#5B6670] hover:text-[#EB0029] transition-colors"
+            >
+              Nuestros programas
             </Link>
           </div>
 
