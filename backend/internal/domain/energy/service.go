@@ -157,7 +157,7 @@ func (s *Service) ContinueChatting(history []string, newMessage string) (string,
 	genaiHistory := []*genai.Content{}
 	for i, message := range history {
 		role := genai.Role(genai.RoleUser)
-		if i%2 != 0 {
+		if i%2 == 0 {
 			role = genai.Role(genai.RoleModel)
 		}
 

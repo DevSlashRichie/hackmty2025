@@ -111,11 +111,6 @@ function OnboardingQuestionsComponent() {
       sessionStorage.setItem("energy_profile", JSON.stringify(answers));
       setIsAnalyzing(true);
 
-      // Si hay recibo, intentar analizarlo
-      if (answers.electricBill) {
-        await analyzeElectricBill(answers.electricBill);
-      }
-
       // Analizar perfil energético
       const result = analyzeEnergyProfile({
         people: answers.people,

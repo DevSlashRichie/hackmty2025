@@ -1,54 +1,104 @@
-import { useState } from 'react'
-import { MessageCircle, X, Send } from 'lucide-react'
+import { useEffect, useRef, useState } from "react";
+import { MessageCircle, X, Send } from "lucide-react";
+import { useApi } from "@/api/use-api";
+import Markdown from "react-markdown";
+
+const PROMPT = `
+role: system
+name: Sol
+content: |
+  Eres **Sol**, un asistente virtual de energía solar y sustentabilidad impulsado por inteligencia artificial.
+
+  ## Misión
+  Ayudar a los usuarios a entender, optimizar y reducir su consumo energético, promoviendo el uso de energías limpias y soluciones sustentables.
+
+  ## Contexto del entorno
+  Operas dentro del ecosistema **Banorte**, como parte de un proyecto que impulsa a **desarrolladoras inmobiliarias** a instalar paneles solares en cada vivienda.
+  Banorte ofrece **tasas preferenciales en créditos** a las desarrolladoras que integren soluciones solares, y proporciona a los usuarios finales una **aplicación** donde pueden:
+  - Monitorear su consumo y ahorro energético.
+  - Consultar su gasto mensual y por electrodoméstico.
+  - Recibir consejos personalizados para mejorar la eficiencia energética.
+  - Obtener recomendaciones de productos eficientes (por ejemplo, refrigeradores o lavadoras de bajo consumo).
+  - Acceder a **créditos verdes Banorte** para adquirir soluciones sustentables.
+
+  ## Capacidades principales
+  - Generar y explicar **informes de consumo y ahorro energético**.
+  - Estimar **ahorros potenciales** al instalar paneles solares u optimizar hábitos.
+  - Ofrecer **consejos prácticos** para reducir el gasto eléctrico.
+  - Detectar **electrodomésticos de alto consumo** y sugerir alternativas eficientes.
+  - Recomendar **productos y servicios financieros verdes** de Banorte según el perfil del usuario.
+
+  ## Estilo de comunicación
+  - Amable, educativo y profesional.
+  - Promueve la sostenibilidad con optimismo y claridad.
+  - Evita tecnicismos innecesarios; usa lenguaje accesible.
+  - Transmite confianza, apoyo y cercanía.
+`;
 
 export function FloatingChat() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [message, setMessage] = useState('')
-  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant', content: string }>>([
+  const [isOpen, setIsOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const ref = useRef<HTMLDivElement>(null);
+  const { api } = useApi();
+  const [messages, setMessages] = useState<
+    Array<{ role: "user" | "assistant"; content: string }>
+  >([
     {
-      role: 'assistant',
-      content: '¡Hola! Soy Sol, tu asistente de energía solar impulsado por IA 🤖\n\nPuedes preguntarme sobre tu consumo, ahorro, o pedirme consejos para optimizar tu uso de energía. ¿En qué puedo ayudarte?'
+      role: "assistant",
+      content:
+        "¡Hola! Soy Sol, tu asistente de energía solar impulsado por IA 🤖\n\nPuedes preguntarme sobre tu consumo, ahorro, o pedirme consejos para optimizar tu uso de energía. ¿En qué puedo ayudarte?",
+    },
+  ]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollTop = ref.current.scrollHeight;
     }
-  ])
-  const [isLoading, setIsLoading] = useState(false)
+  }, [messages, isLoading]);
 
   const handleSendMessage = async () => {
-    if (!message.trim()) return
+    if (!message.trim()) return;
 
-    const newMessage = { role: 'user' as const, content: message }
-    setMessages(prev => [...prev, newMessage])
-    setMessage('')
-    setIsLoading(true)
+    const newMessage = { role: "user" as const, content: message };
+    const currentMessages = [...messages, newMessage];
+    setMessages(currentMessages);
+    setMessage("");
+    setIsLoading(true);
 
-    // Simulación de respuestas predefinidas
-    setTimeout(() => {
-      let response = ''
-      const lowerMessage = message.toLowerCase()
-      
-      if (lowerMessage.includes('ahorro') || lowerMessage.includes('ahorrado')) {
-        response = `Has ahorrado $2,847 en tu recibo de luz este mes. Además, Banorte te dio $284 de descuento en tu hipoteca. Total: $3,131.\n\nEstás $230 arriba vs el mes pasado. ¡Excelente trabajo! 🎉`
-      } else if (lowerMessage.includes('clima') || lowerMessage.includes('aire')) {
-        response = `Mmm... Ahora estás produciendo 2.1 kW y consumiendo 0.8 kW. Sí puedes prender el clima, pero te recomiendo esperar 30 minutos. A las 12pm tendrás pico de producción y será 100% gratis. Ahora te costaría $8. ¿Esperas?`
-      } else if (lowerMessage.includes('consumo')) {
-        response = `Tu consumo promedio es de 420 kWh/mes. Estás produciendo ~750 kWh/mes con tus paneles, ¡así que tienes un excedente de 330 kWh/mes! 🌟`
-      } else {
-        response = `Gracias por tu pregunta. Estoy aquí para ayudarte con todo lo relacionado a tu energía solar. Puedes preguntarme sobre ahorro, consumo, o pedir consejos para optimizar tu uso de energía.`
-      }
-      
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: response
-      }])
-      setIsLoading(false)
-    }, 1500)
-  }
+    const history = currentMessages.map((m) => m.content);
+    history[0] = PROMPT;
+
+    try {
+      const response = await api.energy.chat(history, message).submit();
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: response.response,
+        },
+      ]);
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content:
+            "Lo siento, no pude procesar tu mensaje. Inténtalo de nuevo.",
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      handleSendMessage()
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
     }
-  }
+  };
 
   return (
     <>
@@ -56,7 +106,7 @@ export function FloatingChat() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center ${
-          isOpen ? 'bg-[#323E48]' : 'bg-[#EB0029] hover:bg-[#DB0026]'
+          isOpen ? "bg-[#323E48]" : "bg-[#EB0029] hover:bg-[#DB0026]"
         }`}
       >
         {isOpen ? (
@@ -68,7 +118,7 @@ export function FloatingChat() {
 
       {/* Pop-up del chat */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-40 w-96 max-w-[calc(100vw-3rem)] h-[min(500px,calc(100vh-8rem))] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-[#CFD2D3]">
+        <div className="fixed bottom-24 right-6 z-40 w-96 max-w-[calc(100vw-3rem)] h-[min(600px,calc(100vh-8rem))] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-[#CFD2D3]">
           {/* Header */}
           <div className="bg-gradient-to-r from-[#EB0029] to-[#FF8C00] p-4 flex items-center gap-3">
             <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-2xl">
@@ -76,36 +126,52 @@ export function FloatingChat() {
             </div>
             <div className="flex-1">
               <h3 className="font-bold text-white">Sol - Asistente IA</h3>
-              <p className="text-xs text-white/80">🤖 Inteligencia Artificial • Energía Solar</p>
+              <p className="text-xs text-white/80">
+                🤖 Inteligencia Artificial • Energía Solar
+              </p>
             </div>
           </div>
 
           {/* Mensajes */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#F6F6F6]">
+          <div
+            className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#F6F6F6]"
+            ref={ref}
+          >
             {messages.map((msg, idx) => (
               <div
                 key={idx}
-                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 <div
                   className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                    msg.role === 'user'
-                      ? 'bg-[#EB0029] text-white'
-                      : 'bg-white text-[#323E48] border border-[#CFD2D3]'
+                    msg.role === "user"
+                      ? "bg-[#EB0029] text-white"
+                      : "bg-white text-[#323E48] border border-[#CFD2D3]"
                   }`}
                 >
-                  <p className="text-sm whitespace-pre-line">{msg.content}</p>
+                  <p className="text-sm whitespace-pre-line">
+                    <Markdown>{msg.content}</Markdown>
+                  </p>
                 </div>
               </div>
             ))}
-            
+
             {isLoading && (
               <div className="flex justify-start">
                 <div className="bg-white rounded-2xl px-4 py-3 border border-[#CFD2D3]">
                   <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-[#5B6670] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-2 h-2 bg-[#5B6670] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-2 h-2 bg-[#5B6670] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    <div
+                      className="w-2 h-2 bg-[#5B6670] rounded-full animate-bounce"
+                      style={{ animationDelay: "0ms" }}
+                    ></div>
+                    <div
+                      className="w-2 h-2 bg-[#5B6670] rounded-full animate-bounce"
+                      style={{ animationDelay: "150ms" }}
+                    ></div>
+                    <div
+                      className="w-2 h-2 bg-[#5B6670] rounded-full animate-bounce"
+                      style={{ animationDelay: "300ms" }}
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -135,5 +201,5 @@ export function FloatingChat() {
         </div>
       )}
     </>
-  )
+  );
 }
